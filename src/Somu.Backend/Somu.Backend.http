@@ -1,0 +1,6 @@
+@Somu.Backend_HostAddress = http://localhost:5122
+
+GET {{Somu.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

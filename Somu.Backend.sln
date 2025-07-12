@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40C330D0-83AE-4F36-94CE-665AF7545B00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F2CAE6B-E2D7-421D-B629-6AB7987BFF2E}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+		Directory.Build.props = Directory.Build.props
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Somu.Backend", "src\Somu.Backend\Somu.Backend.csproj", "{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D417C363-70AC-497D-985C-0C2B8395B51F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0A3E8C6E-D580-4323-8ECF-99D1E8D8BC8A} = {40C330D0-83AE-4F36-94CE-665AF7545B00}
+	EndGlobalSection
+EndGlobal
