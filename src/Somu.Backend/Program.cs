@@ -1,6 +1,10 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
@@ -9,9 +13,10 @@ using OpenTelemetry.Trace;
 using Somu.Backend.Data;
 using Somu.Backend.Extensions;
 using Somu.Backend.Handlers;
+using Somu.Backend.Models.Auth;
+using Somu.Backend.Options.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
-#pragma warning restore IDE0008
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -27,6 +32,38 @@ builder.Services.AddControllers(options =>
 .AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwt =>
+{
+    var value = builder.Configuration.GetSection("JwtConfig:Secret").Value;
+    if (value != null)
+    {
+        var key = Encoding.ASCII.GetBytes(value);
+        jwt.SaveToken = true;
+        jwt.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            RequireExpirationTime = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero // Disable clock skew for testing purposes
+        };
+    }
+});
+
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
@@ -81,7 +118,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
