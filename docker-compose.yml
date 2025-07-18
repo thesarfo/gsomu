@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REGISTRY-}somubackend
     build:
       context: .
-      dockerfile: ./Somu.Backend/Dockerfile
+      dockerfile: ./src/Somu.Backend/Dockerfile
     ports:
       - 5000:5000
     environment:
@@ -27,7 +27,7 @@ services:
     volumes:
       - ./.containers/postgres_data:/var/lib/postgresql/data
     ports:
-      - 5433:5433
+      - 5432:5432
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres -d somu" ]
       interval: 5s
